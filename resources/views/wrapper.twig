@@ -1,0 +1,13 @@
+{% block content %}
+
+    {% for style in asset_styles("styles.css") %}
+        {{ style|raw }}
+    {% endfor %}
+
+    {{ content|raw }}
+
+    {% for script in asset_scripts("scripts.js") %}
+        {{ script|raw }}
+    {% endfor %}
+
+{% endblock %}

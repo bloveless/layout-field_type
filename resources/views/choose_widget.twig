@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <button class="close" data-dismiss="modal">
+        <span>&times;</span>
+    </button>
+    <h4 class="modal-title">{{ trans('fritzandandre.field_type.layout::message.choose_widget') }}</h4>
+</div>
+
+<div class="modal-body">
+    {% if not widgets.isEmpty() %}
+        <ul class="nav nav-pills nav-stacked">
+            {% for widget in widgets %}
+                <li class="nav-item">
+                    <a href="{{ url_to('admin/layout-field_type/form?type=' ~ widget.namespace) }}" data-slug="{{ slug }}" class="nav-link add-widget">
+                        <strong>{{ trans(widget.object.title) }}</strong>
+                        <br>
+                        <small>{{ trans(widget.object.description) }}</small>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ trans('streams::message.no_results') }}
+    {% endif %}
+</div>

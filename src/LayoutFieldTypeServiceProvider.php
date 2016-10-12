@@ -2,35 +2,17 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
+/**
+ * Class LayoutFieldTypeServiceProvider
+ *
+ * @link          http://fritzandandre.com
+ * @author        Brennon Loveless <brennon@fritzandandre.com>
+ * @package       Fritzandandre\LayoutFieldType
+ */
 class LayoutFieldTypeServiceProvider extends AddonServiceProvider
 {
-
-    protected $plugins = [];
-
-    protected $routes = [];
-
-    protected $middleware = [];
-
-    protected $listeners = [];
-
-    protected $aliases = [];
-
-    protected $bindings = [];
-
-    protected $providers = [];
-
-    protected $singletons = [];
-
-    protected $overrides = [];
-
-    protected $mobile = [];
-
-    public function register()
-    {
-    }
-
-    public function map()
-    {
-    }
-
+    protected $routes = [
+        'admin/layout-field_type/widgets' => 'Fritzandandre\LayoutFieldType\Http\Controller\AjaxController@widgets',
+        'admin/layout-field_type/form'    => 'Fritzandandre\LayoutFieldType\Http\Controller\AjaxController@form'
+    ];
 }

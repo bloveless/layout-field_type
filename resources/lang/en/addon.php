@@ -3,5 +3,5 @@
 return [
     'title'       => 'Layout',
     'name'        => 'Layout Field Type',
-    'description' => ''
+    'description' => 'A widget style, extension based, layout provider.'
 ];

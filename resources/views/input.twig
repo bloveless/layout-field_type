@@ -1,0 +1,11 @@
+{{ asset_add('styles.css', 'fritzandandre.field_type.layout::scss/layout-field_type.scss') }}
+{{ asset_add('scripts.js', 'fritzandandre.field_type.layout::js/layout-field_type.js') }}
+
+<div id="{{ field_type.entry.stream.slug }}" class="layout-field_type">
+    <div class="rows"></div>
+
+    <a href="/admin/layout-field_type/widgets?slug={{ field_type.entry.stream.slug }}" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal">
+        <i class="fa fa-plus"></i>
+        Add widget
+    </a>
+</div>

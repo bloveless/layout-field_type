@@ -27,11 +27,12 @@ class AjaxController extends AdminController
 
     public function form(AddonCollection $addons)
     {
-        $type = $this->request->get('type');
+        $type  = $this->request->get('type');
         $addon = $addons->get($type);
-        $form = $addon->getForm();
+        $form  = $addon->getForm();
         $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::wrapper')
-            ->setOption('form_view', 'fritzandandre.field_type.layout::form');
+             ->setOption('form_view', 'fritzandandre.field_type.layout::form')
+             ->setOption('prefix', 'test_prefix_');
 
         return $form->render();
     }

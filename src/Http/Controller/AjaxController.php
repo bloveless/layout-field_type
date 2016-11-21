@@ -32,7 +32,11 @@ class AjaxController extends AdminController
         $form  = $addon->getForm();
         $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::wrapper')
              ->setOption('form_view', 'fritzandandre.field_type.layout::form')
-             ->setOption('prefix', 'test_prefix_');
+             ->setOption('layout_prefix', 'layout')
+             ->setOption('widget_class', get_class($form))
+             ->setOption('layout_instance', '1')
+             ->setOption('prefix', 'layout_1_');
+
 
         return $form->render();
     }

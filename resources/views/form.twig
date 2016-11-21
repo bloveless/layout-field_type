@@ -1,3 +1,5 @@
+<input type="hidden" name="{{ form.options.layout_prefix }}[{{ form.options.layout_instance }}][class]"
+       value="{{ form.options.widget_class }}">
 <div class="form">
     {{ form.render_fields|raw }}
 </div>

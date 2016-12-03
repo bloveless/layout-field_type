@@ -1,7 +1,10 @@
 .layout-field_type {
   .rows {
     .layout-row {
-      padding: 1em 0;
+
+      .form-group {
+        margin-top: 0px;
+      }
     }
   }
 }

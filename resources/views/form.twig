@@ -1,5 +1,9 @@
-<input type="hidden" name="{{ form.options.layout_prefix }}[{{ form.options.layout_instance }}][class]"
-       value="{{ form.options.widget_class }}">
+<input type="hidden" name="{{ form.options.layout_prefix }}[{{ form.options.layout_instance }}][form]"
+       value="{{ form.options.widget_form }}">
+<input type="hidden" name="{{ form.options.layout_prefix }}[{{ form.options.layout_instance }}][entry_id]"
+       value="{{ form.options.entry_id }}">
+<input type="hidden" name="{{ form.options.layout_prefix }}[{{ form.options.layout_instance }}][field_slug]"
+       value="{{ form.options.layout_prefix }}">
 <div class="form">
     {{ form.render_fields|raw }}
 </div>

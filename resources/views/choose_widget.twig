@@ -10,7 +10,7 @@
         <ul class="nav nav-pills nav-stacked">
             {% for widget in widgets %}
                 <li class="nav-item">
-                    <a href="{{ url_to('admin/layout-field_type/form?type=' ~ widget.namespace) }}" data-slug="{{ slug }}" class="nav-link add-widget">
+                    <a href="{{ url_to('admin/layout-field_type/form?type=' ~ widget.namespace) }}" data-field_slug="{{ field_slug }}" class="nav-link add-widget">
                         <strong>{{ trans(widget.object.title) }}</strong>
                         <br>
                         <small>{{ trans(widget.object.description) }}</small>

@@ -1,8 +1,9 @@
-<?php namespace Fritzandandre\LayoutFieldType\Http\Controller;
+<?php namespace Fritzandandre\LayoutFieldType\Http\Admin\Controller;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
+use Fritzandandre\LayoutFieldType\FormBuilder\Command\PrepareFormForLayout;
 
 /**
  * Class AjaxController
@@ -20,23 +21,20 @@ class AjaxController extends AdminController
     public function widgets(ExtensionCollection $extensions)
     {
         return view('fritzandandre.field_type.layout::choose_widget', [
-            'slug'    => $this->request->get('slug'),
-            'widgets' => $extensions->search('fritzandandre.field_type.layout::widget.*')->installed()
+            'field_slug' => $this->request->get('field_slug'),
+            'widgets'    => $extensions->search('fritzandandre.field_type.layout::widget.*')->installed(),
         ]);
     }
 
     public function form(AddonCollection $addons)
     {
-        $type  = $this->request->get('type');
-        $addon = $addons->get($type);
-        $form  = $addon->getForm();
-        $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::wrapper')
-             ->setOption('form_view', 'fritzandandre.field_type.layout::form')
-             ->setOption('layout_prefix', 'layout')
-             ->setOption('widget_class', get_class($form))
-             ->setOption('layout_instance', '1')
-             ->setOption('prefix', 'layout_1_');
+        $type       = $this->request->get('type');
+        $addon      = $addons->get($type);
+        $form       = $addon->getForm();
+        $instanceId = $this->request->get('instance_id');
+        $fieldSlug  = $this->request->get('field_slug');
 
+        $this->dispatch(new PrepareFormForLayout($form, $fieldSlug, $instanceId));
 
         return $form->render();
     }

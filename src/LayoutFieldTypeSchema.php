@@ -36,6 +36,7 @@ class LayoutFieldTypeSchema extends FieldTypeSchema
                 $table->increments('id');
                 $table->integer('sort_order');
                 $table->timestamps();
+                $table->integer('entry_id');
                 $table->string('widget_type');
                 $table->integer('widget_id');
             }

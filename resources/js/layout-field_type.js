@@ -5,10 +5,12 @@ $(function() {
         var $this = $(this);
 
         var href = $this.attr('href');
-        var $container = $('#' + $this.data('slug'));
+        var $container = $('#' + $this.data('field_slug'));
         var $rowsContainer = $container.find('.rows');
+        var $layoutRows = $container.find('.layout-row');
 
-        $.get(href, function(data) {
+        $.post(href, {instance_id: $layoutRows.length + 1, field_slug: $this.data('field_slug')}, function(data) {
+            console.log(data);
             var $row = $('<div>').addClass('layout-row').append(data);
             $rowsContainer.append($row);
         });

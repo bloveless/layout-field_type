@@ -7,13 +7,15 @@
  */
 class PrepareFormForLayout
 {
+    protected $addon;
     protected $form;
     protected $fieldSlug;
     protected $instanceId;
     protected $entryId;
 
-    public function __construct($form, $fieldSlug, $instanceId, $entryId = null)
+    public function __construct($addon, $form, $fieldSlug, $instanceId, $entryId = null)
     {
+        $this->addon      = $addon;
         $this->form       = $form;
         $this->fieldSlug  = $fieldSlug;
         $this->instanceId = $instanceId;
@@ -29,6 +31,7 @@ class PrepareFormForLayout
         $this->form->setOption('wrapper_view', 'fritzandandre.field_type.layout::form_wrapper')
                    ->setOption('form_view', 'fritzandandre.field_type.layout::form')
                    ->setOption('layout_prefix', $this->fieldSlug)
+                   ->setOption('addon_class', get_class($this->addon))
                    ->setOption('widget_form', get_class($this->form))
                    ->setOption('layout_instance', $this->instanceId)
                    ->setOption('prefix', $this->fieldSlug . '_' . $this->instanceId . '_')

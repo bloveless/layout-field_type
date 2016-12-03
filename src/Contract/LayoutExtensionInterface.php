@@ -15,4 +15,18 @@ interface LayoutExtensionInterface
      * @return \Illuminate\Foundation\Application|mixed
      */
     public function getForm();
+
+    /**
+     * Set the entry id for rendering.
+     *
+     * @param $entryId
+     */
+    public function setEntryId($entryId);
+
+    /**
+     * Render the content.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function render();
 }

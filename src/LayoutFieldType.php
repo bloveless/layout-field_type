@@ -28,6 +28,24 @@ class LayoutFieldType extends FieldType
     }
 
     /**
+     * Get the contents of the layout field for displaying on the front end.
+     * @return string
+     */
+    public function display()
+    {
+        $rawEntries = DB::table($this->getPivotTableName())->where('entry_id', $this->getEntry()->getId())->get();
+        $output = "";
+
+        foreach ($rawEntries as $rawEntry) {
+            $addon = app($rawEntry->widget_type);
+            $addon->setEntryId($rawEntry->widget_id);
+            $output .= $addon->render();
+        }
+
+        return $output;
+    }
+
+    /**
      * Render the input and wrapper.
      *
      * @param  array $payload
@@ -35,19 +53,22 @@ class LayoutFieldType extends FieldType
      */
     public function render($payload = [])
     {
-        $rawForms     = DB::table($this->getPivotTableName())->where('entry_id', $this->getEntry()->getId())->get();
+        $rawEntries   = DB::table($this->getPivotTableName())->where('entry_id', $this->getEntry()->getId())->get();
         $formContents = [];
+        $instance = 0;
 
-        foreach ($rawForms as $rawForm) {
-            $form = app($rawForm->widget_type);
+        foreach ($rawEntries as $rawEntry) {
+            $addon = app($rawEntry->widget_type);
+            $form  = $addon->getForm();
             $this->dispatch(new PrepareFormForLayout(
+                $addon,
                 $form,
                 $this->getFieldName(),
-                $rawForm->widget_id,
-                $rawForm->widget_id
+                $instance++,
+                $rawEntry->widget_id
             ));
 
-            $form->make($rawForm->widget_id);
+            $form->make($rawEntry->widget_id);
 
             $formContents[] = $form->getFormContent()->render();
         }
@@ -57,18 +78,17 @@ class LayoutFieldType extends FieldType
 
     /**
      * Handle saving the field.
-     *
-     * @param FormBuilder $builder
      */
-    public function handle(FormBuilder $builder, EloquentQueryBuilder $query)
+    public function handle()
     {
         $fieldTypeEntryId = $this->getEntry()->getId();
 
         foreach ($this->getInputValue() as $layoutInstance => $instanceParams) {
-
             /** @var FormBuilder $form */
-            $form = app($instanceParams['form']);
+            $addon = app($instanceParams['addon']);
+            $form  = $addon->getForm();
             $this->dispatch(new PrepareFormForLayout(
+                $addon,
                 $form,
                 $instanceParams['field_slug'],
                 $layoutInstance,
@@ -79,7 +99,7 @@ class LayoutFieldType extends FieldType
             if ($form->getFormEntry()->wasRecentlyCreated) {
                 $attributes = [
                     'entry_id'    => $fieldTypeEntryId,
-                    'widget_type' => get_class($form),
+                    'widget_type' => get_class($addon),
                     'widget_id'   => $form->getFormEntryId(),
                 ];
 

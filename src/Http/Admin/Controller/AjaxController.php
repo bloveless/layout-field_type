@@ -34,7 +34,7 @@ class AjaxController extends AdminController
         $instanceId = $this->request->get('instance_id');
         $fieldSlug  = $this->request->get('field_slug');
 
-        $this->dispatch(new PrepareFormForLayout($form, $fieldSlug, $instanceId));
+        $this->dispatch(new PrepareFormForLayout($addon, $form, $fieldSlug, $instanceId));
 
         return $form->render();
     }

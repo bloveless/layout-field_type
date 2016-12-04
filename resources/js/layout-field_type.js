@@ -41,7 +41,7 @@ $(function () {
         }
     });
 
-    $('.add-widget').click(function (event) {
+    $(document.body).on('click', '.add-widget', function (event) {
         event.preventDefault();
 
         var $this = $(this);

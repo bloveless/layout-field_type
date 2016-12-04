@@ -4,7 +4,15 @@
         {{ style|raw }}
     {% endfor %}
 
-    {{ content|raw }}
+    <div class="layout-delete-handle">
+        <a class="layout-row-delete" href="javascript:;"><i class="fa fa-remove"></i></a>
+    </div>
+    <div class="layout-handle">
+        <a href="javascript:;"><i class="fa fa-arrows"></i></a>
+    </div>
+    <div class="layout-form">
+        {{ content|raw }}
+    </div>
 
     {% for script in asset_scripts("scripts.js") %}
         {{ script|raw }}

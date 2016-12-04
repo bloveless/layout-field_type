@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 class LayoutFieldTypeServiceProvider extends AddonServiceProvider
 {
     protected $routes = [
-        'admin/layout-field_type/widgets' => 'Fritzandandre\LayoutFieldType\Http\Admin\Controller\AjaxController@widgets',
-        'admin/layout-field_type/form'    => 'Fritzandandre\LayoutFieldType\Http\Admin\Controller\AjaxController@form'
+        'admin/layout-field_type/widgets'     => 'Fritzandandre\LayoutFieldType\Http\Admin\Controller\AjaxController@widgets',
+        'admin/layout-field_type/form'        => 'Fritzandandre\LayoutFieldType\Http\Admin\Controller\AjaxController@form',
     ];
 }

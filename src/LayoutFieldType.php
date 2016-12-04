@@ -22,6 +22,11 @@ class LayoutFieldType extends FieldType
      */
     protected $inputView = 'fritzandandre.field_type.layout::input';
 
+    /**
+     * Get the pivot table name for this field type.
+     *
+     * @return string
+     */
     public function getPivotTableName()
     {
         return $this->entry->getTableName() . '_' . $this->getField();
@@ -29,14 +34,22 @@ class LayoutFieldType extends FieldType
 
     /**
      * Get the contents of the layout field for displaying on the front end.
+     *
      * @return string
      */
     public function display()
     {
+        /**
+         * Get the widgets from the db for this layout field.
+         */
         $rawEntries = DB::table($this->getPivotTableName())->where('entry_id', $this->getEntry()->getId())->get();
+
         $output = "";
 
         foreach ($rawEntries as $rawEntry) {
+            /**
+             * Create each widget and get the HTML to display it.
+             */
             $addon = app($rawEntry->widget_type);
             $addon->setEntryId($rawEntry->widget_id);
             $output .= $addon->render();
@@ -53,23 +66,41 @@ class LayoutFieldType extends FieldType
      */
     public function render($payload = [])
     {
-        $rawEntries   = DB::table($this->getPivotTableName())->where('entry_id', $this->getEntry()->getId())->get();
+        /**
+         * Get all the rows from the db for this layout field.
+         */
+        $rawEntries = DB::table($this->getPivotTableName())->where('entry_id',
+            $this->getEntry()->getId())->orderBy('sort_order')->get();
+
         $formContents = [];
-        $instance = 0;
+        $instance     = 0;
 
         foreach ($rawEntries as $rawEntry) {
             $addon = app($rawEntry->widget_type);
             $form  = $addon->getForm();
+
+            /**
+             * Setup some options for the form.
+             */
             $this->dispatch(new PrepareFormForLayout(
                 $addon,
                 $form,
                 $this->getFieldName(),
                 $instance++,
-                $rawEntry->widget_id
+                $rawEntry->widget_id,
+                $rawEntry->sort_order
             ));
+
+            /**
+             * This will be used for deleting.
+             */
+            $form->setOption('layout_row_id', $rawEntry->id);
 
             $form->make($rawEntry->widget_id);
 
+            /**
+             * Append the form html to the form contents array.
+             */
             $formContents[] = $form->getFormContent()->render();
         }
 
@@ -87,6 +118,10 @@ class LayoutFieldType extends FieldType
             /** @var FormBuilder $form */
             $addon = app($instanceParams['addon']);
             $form  = $addon->getForm();
+
+            /**
+             * Setup some options for the form.
+             */
             $this->dispatch(new PrepareFormForLayout(
                 $addon,
                 $form,
@@ -96,14 +131,28 @@ class LayoutFieldType extends FieldType
             ));
             $form->make($instanceParams['entry_id']);
 
-            if ($form->getFormEntry()->wasRecentlyCreated) {
-                $attributes = [
-                    'entry_id'    => $fieldTypeEntryId,
-                    'widget_type' => get_class($addon),
-                    'widget_id'   => $form->getFormEntryId(),
-                ];
+            /**
+             * Some standard attributes to create or search by.
+             */
+            $attributes = [
+                'entry_id'    => $fieldTypeEntryId,
+                'widget_type' => get_class($addon),
+                'widget_id'   => $form->getFormEntryId(),
+            ];
 
-                DB::table($this->getPivotTableName())->insert($attributes);
+            /**
+             * If the widget doesn't already exist then create it (and append the sort order)
+             */
+            if ($form->getFormEntry()->wasRecentlyCreated) {
+                DB::table($this->getPivotTableName())->insert(array_merge($attributes,
+                    ['sort_order' => $instanceParams['sort_order']]));
+            }
+
+            /**
+             * If the widget already exists then it has already been saved and we just have to update the sort order
+             */
+            if (!$form->getFormEntry()->wasRecentlyCreated) {
+                DB::table($this->getPivotTableName())->where($attributes)->update(['sort_order' => $instanceParams['sort_order']]);
             }
         }
     }

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Fritzandandre\LayoutFieldType\FormBuilder\Command\PrepareFormForLayout;
+use Fritzandandre\LayoutFieldType\LayoutFieldType;
 
 /**
  * Class AjaxController
@@ -26,6 +27,12 @@ class AjaxController extends AdminController
         ]);
     }
 
+    /**
+     * Get the HTML for the form.
+     *
+     * @param AddonCollection $addons
+     * @return mixed
+     */
     public function form(AddonCollection $addons)
     {
         $type       = $this->request->get('type');

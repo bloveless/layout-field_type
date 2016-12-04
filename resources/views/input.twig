@@ -1,5 +1,6 @@
 {{ asset_add('styles.css', 'fritzandandre.field_type.layout::scss/layout-field_type.scss') }}
 {{ asset_add('scripts.js', 'fritzandandre.field_type.layout::js/layout-field_type.js') }}
+{{ asset_add('scripts.js', 'streams::js/table/jquery-sortable.js') }}
 
 <div
         {{ field_type.locale ? 'lang=' ~ field_type.locale }}
@@ -10,6 +11,8 @@
             {{ field_type.slug }}-field_type
             {{ field_type.hidden ? 'hidden' }}
             ">
+
+    <input class="{{ field_type.input_name }}-delete-ids" type="hidden" name="{{ field_type.input_name }}_delete_ids" value="">
 
     {% if field_type.config.disable_label != true %}
         <label class="control-label">
@@ -42,10 +45,18 @@
 
     <div>
         <div id="{{ field_type.input_name }}" class="layout-field_type">
-            <div class="rows">
+            <div class="layout-rows">
                 {% for form in forms_html %}
                     <div class="layout-row">
-                        {{ form|raw }}
+                        <div class="layout-delete-handle">
+                            <a class="layout-row-delete" href="javascript:;"><i class="fa fa-remove"></i></a>
+                        </div>
+                        <div class="layout-handle">
+                            <a href="javascript:;"><i class="fa fa-arrows"></i></a>
+                        </div>
+                        <div class="layout-form">
+                            {{ form|raw }}
+                        </div>
                     </div>
                 {% endfor %}
             </div>

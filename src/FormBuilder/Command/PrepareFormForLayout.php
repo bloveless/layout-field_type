@@ -12,14 +12,16 @@ class PrepareFormForLayout
     protected $fieldSlug;
     protected $instanceId;
     protected $entryId;
+    protected $sortOrder;
 
-    public function __construct($addon, $form, $fieldSlug, $instanceId, $entryId = null)
+    public function __construct($addon, $form, $fieldSlug, $instanceId, $entryId = null, $sortOrder = null)
     {
         $this->addon      = $addon;
         $this->form       = $form;
         $this->fieldSlug  = $fieldSlug;
         $this->instanceId = $instanceId;
         $this->entryId    = $entryId;
+        $this->sortOrder  = $sortOrder;
     }
 
     /**
@@ -35,6 +37,7 @@ class PrepareFormForLayout
                    ->setOption('widget_form', get_class($this->form))
                    ->setOption('layout_instance', $this->instanceId)
                    ->setOption('prefix', $this->fieldSlug . '_' . $this->instanceId . '_')
-                   ->setOption('entry_id', $this->entryId);
+                   ->setOption('entry_id', $this->entryId)
+                   ->setOption('sort_order', $this->sortOrder);
     }
 }

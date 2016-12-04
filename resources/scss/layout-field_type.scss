@@ -1,12 +1,47 @@
 .layout-field_type {
-  .rows {
-    .layout-row {
+  .layout-rows {
+
+    .placeholder {
+      background-color: #eee !important;
+    }
+
+    .layout-row, .placeholder {
       padding: 5px 5px 0 5px;
       margin-bottom: 10px;
       border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: white;
+      position: relative;
 
-      .form-group {
-        margin-top: 0px;
+      &.dragged {
+        position: absolute;
+        z-index: 1000;
+      }
+
+      .layout-delete-handle {
+        position: absolute;
+        top: 0;
+        right: 3px;
+
+        i {
+          color: red;
+        }
+      }
+
+      .layout-handle {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        width: 25px;
+        padding-right: 10px;
+      }
+
+      .layout-form {
+        display: table-cell;
+        width: 100%;
+
+        .form-group {
+          margin-top: 0px;
+        }
       }
     }
   }

@@ -1,9 +1,9 @@
-<?php namespace Fritzandandre\LayoutFieldType\FormBuilder\Command;
+<?php namespace Fritzandandre\LayoutFieldType\Command;
 
 /**
  * Class PrepareFormForLayout
  *
- * @package Fritzandandre\LayoutFieldType\FormBuilder\Command
+ * @package Fritzandandre\LayoutFieldType\Command
  */
 class PrepareFormForLayout
 {

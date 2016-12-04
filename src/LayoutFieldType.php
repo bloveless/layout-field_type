@@ -1,9 +1,10 @@
 <?php namespace Fritzandandre\LayoutFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Fritzandandre\LayoutFieldType\FormBuilder\Command\PrepareFormForLayout;
+use Fritzandandre\LayoutFieldType\Command\DeleteLayoutRowAndEntry;
+use Fritzandandre\LayoutFieldType\Command\PrepareFormForLayout;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -110,13 +111,23 @@ class LayoutFieldType extends FieldType
     /**
      * Handle saving the field.
      */
-    public function handle()
+    public function handle(Request $request)
     {
         $fieldTypeEntryId = $this->getEntry()->getId();
 
+        /**
+         * Take care of any deletes
+         */
+        if ($deleteIds = $request->input($this->getFieldName() . '_delete_ids')) {
+            $deleteIds = explode(',', $deleteIds);
+            foreach ($deleteIds as $deleteId) {
+                $this->dispatch(new DeleteLayoutRowAndEntry($this->getPivotTableName(), $deleteId));
+            }
+        }
+
         foreach ($this->getInputValue() as $layoutInstance => $instanceParams) {
-            /** @var FormBuilder $form */
             $addon = app($instanceParams['addon']);
+            /** @var FormBuilder $form */
             $form  = $addon->getForm();
 
             /**

@@ -3,8 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
-use Fritzandandre\LayoutFieldType\FormBuilder\Command\PrepareFormForLayout;
-use Fritzandandre\LayoutFieldType\LayoutFieldType;
+use Fritzandandre\LayoutFieldType\Command\PrepareFormForLayout;
 
 /**
  * Class AjaxController

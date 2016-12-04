@@ -61,10 +61,23 @@ $(function () {
         return false;
     });
 
-    $('.layout-row-delete').click(function(event) {
-        layoutRow = $(this).closest('.layout-row');
-        entryId = $(layoutRow).find('.layout-row-entry-id').val();
+    $(document.body).on('click', '.layout-row-delete', function (event) {
+        var $layoutRow = $(this).closest('.layout-row');
+        var layoutRowId = $layoutRow.find('.layout-row-id').val();
+        var $formGroup = $(this).closest('.form-group');
+        var deleteIds = $formGroup.find('.delete-ids');
+        var values = deleteIds.val();
+        if(values == "") {
+            values = layoutRowId;
+        }
+        else {
+            values = values.split(',');
+            values.push(layoutRowId);
+            values = values.join(',');
+        }
 
-        console.log($(this).closest('.layout-field_type').find('.layout-delete-ids'));
+        deleteIds.val(values);
+
+        $layoutRow.remove();
     });
 });

@@ -52,6 +52,26 @@ $(function () {
         var $layoutRows = $container.find('.layout-row');
 
         $.post(href, {instance_id: $layoutRows.length + 1, field_slug: $this.data('field_slug')}, function (data) {
+
+            /**
+             * This is a hack to get around a bug that exists in the editor field type.
+             * If ace has already been loaded then search for a line containing ace.js and remove it.
+             */
+            if(typeof(ace) == 'object') {
+                var dataArray = data.split('\n');
+                var removeIndex = -1;
+                for(var i = 0; i < dataArray.length; i++) {
+                    if(dataArray[i].includes('ace.js')) {
+                        removeIndex = i;
+                    }
+                }
+                if(removeIndex > -1) {
+                    dataArray.splice(removeIndex, 1);
+                }
+
+                data = dataArray.join('\n');
+            }
+
             var $row = $('<div>').addClass('layout-row').append(data);
             $rowsContainer.append($row);
         });

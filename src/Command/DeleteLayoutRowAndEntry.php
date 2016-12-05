@@ -5,13 +5,22 @@ use Illuminate\Support\Facades\DB;
 
 class DeleteLayoutRowAndEntry
 {
+    /**
+     * The pivot table name for this field type.
+     * @var
+     */
     protected $tableName;
 
+    /**
+     * The layout row to be deleted.
+     * @var
+     */
     protected $layoutRowId;
 
     /**
      * DeleteLayoutRowAndEntry constructor.
      *
+     * @param $tableName
      * @param $layoutRowId
      */
     public function __construct($tableName, $layoutRowId)
@@ -20,6 +29,9 @@ class DeleteLayoutRowAndEntry
         $this->layoutRowId = $layoutRowId;
     }
 
+    /**
+     * Handle deleting the layout row and it's related entry.
+     */
     public function handle()
     {
         $deleteRow = DB::table($this->tableName)->where('id', $this->layoutRowId)->first();

@@ -1,26 +1,33 @@
 <?php namespace Fritzandandre\LayoutFieldType\Command;
 
 /**
- * Class PrepareFormForLayout
+ * Class SetFormOptions
  *
  * @package Fritzandandre\LayoutFieldType\Command
  */
-class PrepareFormForLayout
+class SetFormOptions
 {
-    protected $addon;
     protected $form;
+    protected $extension;
     protected $fieldSlug;
     protected $instanceId;
-    protected $entryId;
     protected $sortOrder;
 
-    public function __construct($addon, $form, $fieldSlug, $instanceId, $entryId = null, $sortOrder = null)
+    /**
+     * SetFormOptions constructor.
+     *
+     * @param      $form
+     * @param      $extension
+     * @param      $fieldSlug
+     * @param      $instanceId
+     * @param null $sortOrder
+     */
+    public function __construct($form, $extension, $fieldSlug, $instanceId, $sortOrder = null)
     {
-        $this->addon      = $addon;
         $this->form       = $form;
+        $this->extension  = $extension;
         $this->fieldSlug  = $fieldSlug;
         $this->instanceId = $instanceId;
-        $this->entryId    = $entryId;
         $this->sortOrder  = $sortOrder;
     }
 
@@ -30,14 +37,11 @@ class PrepareFormForLayout
      */
     public function handle()
     {
-        $this->form->setOption('wrapper_view', 'fritzandandre.field_type.layout::form_wrapper')
-                   ->setOption('form_view', 'fritzandandre.field_type.layout::form')
-                   ->setOption('layout_prefix', $this->fieldSlug)
-                   ->setOption('addon_class', get_class($this->addon))
-                   ->setOption('widget_form', get_class($this->form))
+        $this->form->setOption('form_view', 'fritzandandre.field_type.layout::form')
+                   ->setOption('field_slug', $this->fieldSlug)
                    ->setOption('layout_instance', $this->instanceId)
+                   ->setOption('extension_class', get_class($this->extension))
                    ->setOption('prefix', $this->fieldSlug . '_' . $this->instanceId . '_')
-                   ->setOption('entry_id', $this->entryId)
                    ->setOption('sort_order', $this->sortOrder);
     }
 }

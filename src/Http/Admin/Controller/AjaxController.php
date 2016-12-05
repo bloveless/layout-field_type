@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
-use Fritzandandre\LayoutFieldType\Command\PrepareFormForLayout;
+use Fritzandandre\LayoutFieldType\Command\SetFormOptions;
 
 /**
  * Class AjaxController
@@ -35,12 +35,14 @@ class AjaxController extends AdminController
     public function form(AddonCollection $addons)
     {
         $type       = $this->request->get('type');
-        $addon      = $addons->get($type);
-        $form       = $addon->getForm();
+        $extension  = $addons->get($type);
+        $form       = $extension->getForm();
         $instanceId = $this->request->get('instance_id');
         $fieldSlug  = $this->request->get('field_slug');
 
-        $this->dispatch(new PrepareFormForLayout($addon, $form, $fieldSlug, $instanceId));
+        $this->dispatch(new SetFormOptions($form, $extension, $fieldSlug, $instanceId));
+
+        $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::ajax_form');
 
         return $form->render();
     }

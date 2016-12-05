@@ -49,9 +49,16 @@ $(function () {
         var href = $this.attr('href');
         var $container = $('#' + $this.data('field_slug'));
         var $rowsContainer = $container.find('.layout-rows');
-        var $layoutRows = $container.find('.layout-row');
 
-        $.post(href, {instance_id: $layoutRows.length + 1, field_slug: $this.data('field_slug')}, function (data) {
+        /**
+         * Find the next available instance id.
+         */
+        var instanceId = 0;
+        while($('.layout-form-container[data-instance="' + instanceId + '"]').length > 0) {
+            instanceId++;
+        }
+
+        $.post(href, {instance_id: instanceId, field_slug: $this.data('field_slug')}, function (data) {
 
             /**
              * This is a hack to get around a bug that exists in the editor field type.

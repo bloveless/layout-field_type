@@ -64,12 +64,16 @@ class LayoutFieldType extends FieldType
      */
     public function display()
     {
-        /**
-         * Get the widgets from the db for this layout field.
-         */
-        $entries = $this->getPivotTableModel()->where('entry_id', $this->getEntry()->getId())->get();
+        if($this->entry) {
+            /**
+             * Get the widgets from the db for this layout field.
+             */
+            $entries = $this->getPivotTableModel()->where('entry_id', $this->getEntry()->getId())->get();
 
-        return $this->dispatch(new GetDisplayContentFromEntries($entries));
+            return $this->dispatch(new GetDisplayContentFromEntries($entries));
+        }
+
+        return "";
     }
 
     /**

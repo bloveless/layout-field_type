@@ -116,7 +116,7 @@ class LayoutFieldType extends FieldType
             $inputValue,
             $this->getPivotTableModel(),
             $this->getEntry()->getId(),
-            $this->getField()
+            $this->getPrefix() . $this->getField()
         ));
     }
 }

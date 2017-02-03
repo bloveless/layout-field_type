@@ -45,7 +45,10 @@ class GetFormHtmlFromLayoutEntries
             /**
              * Append the form html to the form contents array.
              */
-            $formContents[] = $form->getFormContent()->render();
+            $formContents[] = [
+                'name' => trans($extension->getName()),
+                'html' => $form->getFormContent()->render(),
+            ];
         }
 
         return $formContents;

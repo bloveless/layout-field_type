@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Fritzandandre\LayoutFieldType\Command\SetFormOptions;
 
 /**
@@ -34,14 +35,21 @@ class AjaxController extends AdminController
      */
     public function form(AddonCollection $addons)
     {
-        $type       = $this->request->get('type');
-        $extension  = $addons->get($type);
+        $type      = $this->request->get('type');
+        $extension = $addons->get($type);
+
+        /** @var FormBuilder $form */
         $form       = $extension->getForm();
         $instanceId = $this->request->get('instance_id');
         $fieldSlug  = $this->request->get('field_slug');
 
         $this->dispatch(new SetFormOptions($form, $extension, $fieldSlug, $instanceId));
 
+        /**
+         * Add the extension name to the form data so
+         * it can be displayed in the ajax form.
+         */
+        $form->addFormData('extension_name', trans($extension->getName()));
         $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::ajax_form');
 
         return $form->render();

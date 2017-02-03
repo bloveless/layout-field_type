@@ -1,8 +1,8 @@
 <input type="hidden" name="{{ form.options.field_slug }}[{{ form.options.layout_instance }}][extension]"
        value="{{ form.options.extension_class }}">
-<input class="layout-row-id" type="hidden" name="{{ form.options.field_slug }}[{{ form.options.layout_instance }}][id]"
+<input type="hidden" class="layout-row-id" name="{{ form.options.field_slug }}[{{ form.options.layout_instance }}][id]"
        value="{{ form.options.id }}">
-<input class="layout-row-sort-order" type="hidden" name="{{ form.options.field_slug }}[{{ form.options.layout_instance }}][sort_order]"
+<input type="hidden" class="layout-row-sort-order" name="{{ form.options.field_slug }}[{{ form.options.layout_instance }}][sort_order]"
        value="{{ form.options.sort_order }}">
 <div class="form layout-form-container" data-instance="{{ form.options.layout_instance }}">
     {{ form.render_fields|raw }}

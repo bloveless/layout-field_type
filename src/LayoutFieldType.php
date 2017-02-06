@@ -68,7 +68,7 @@ class LayoutFieldType extends FieldType
             /**
              * Get the widgets from the db for this layout field.
              */
-            $entries = $this->getPivotTableModel()->where('entry_id', $this->getEntry()->getId())->get();
+            $entries = $this->getPivotTableModel()->where('entry_id', $this->getEntry()->getId())->orderBy('sort_order')->get();
 
             return $this->dispatch(new GetDisplayContentFromEntries($entries));
         }

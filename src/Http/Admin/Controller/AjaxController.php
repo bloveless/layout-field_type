@@ -42,6 +42,7 @@ class AjaxController extends AdminController
         $form       = $extension->getForm();
         $instanceId = $this->request->get('instance_id');
         $fieldSlug  = $this->request->get('field_slug');
+        $sortOrder  = $this->request->get('sort_order');
 
         $this->dispatch(new SetFormOptions($form, $extension, $fieldSlug, $instanceId));
 
@@ -51,6 +52,7 @@ class AjaxController extends AdminController
          */
         $form->addFormData('extension_name', trans($extension->getName()));
         $form->setOption('wrapper_view', 'fritzandandre.field_type.layout::ajax_form');
+        $form->setOption('sort_order', $sortOrder);
 
         return $form->render();
     }

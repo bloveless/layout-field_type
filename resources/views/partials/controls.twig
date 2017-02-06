@@ -1,0 +1,18 @@
+<div class="dropdown pull-right">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-cog "></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a href="#" class="dropdown-item" data-toggle="collapse"
+           data-expand="{{ trans('fritzandandre.field_type.layout::input.expand') }}"
+           data-collapse="{{ trans('fritzandandre.field_type.layout::input.collapse') }}">
+            {{ icon('fa fa-compress') }} <span>{{ trans('fritzandandre.field_type.layout::input.collapse') }}</span>
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a href="javascript:;" class="dropdown-item text-danger layout-row-delete">
+            {{ icon('fa fa-trash') }} <span>{{ trans('fritzandandre.field_type.layout::input.delete') }}</span>
+        </a>
+    </div>
+</div>

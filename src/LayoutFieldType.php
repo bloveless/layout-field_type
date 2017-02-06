@@ -24,6 +24,12 @@ class LayoutFieldType extends FieldType
     protected $inputView = 'fritzandandre.field_type.layout::input';
 
     /**
+     * The field class
+     * @var string
+     */
+    protected $class = "layout-container";
+
+    /**
      * Store the pivot table model so it only gets created once.
      *
      * @var PivotTableModel

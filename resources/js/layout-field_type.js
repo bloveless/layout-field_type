@@ -1,5 +1,81 @@
 $(function () {
 
+
+    var layouts = $('[data-provides="fritzandandre.field_type.layout"]:not([data-initialized])');
+
+    layouts.each(function () {
+
+        $(this).attr('data-initialized', '');
+
+        var wrapper = $(this);
+        var items = $(this).find('.layout-row');
+        var cookie = 'layout:' + $(this).closest('.layout-container').data('field_name');
+
+        var collapsed = Cookies.getJSON(cookie);
+
+        items.each(function () {
+
+            var item = $(this);
+            var toggle = $(this).find('[data-toggle="collapse"]');
+            var text = toggle.find('span');
+
+            /**
+             * Hide initial items.
+             */
+            if (typeof collapsed == 'undefined') {
+                collapsed = {};
+            }
+
+            if (collapsed[items.index(item)] == true) {
+                item
+                    .toggleClass('collapsed')
+                    .find('[data-toggle="collapse"] i')
+                    .toggleClass('fa-compress')
+                    .toggleClass('fa-expand');
+
+                if (toggle.find('i').hasClass('fa-compress')) {
+                    text.text(toggle.data('collapse'));
+                } else {
+                    text.text(toggle.data('expand'));
+                }
+            }
+        });
+
+        wrapper.on('click', '[data-toggle="collapse"]', function () {
+
+            var toggle = $(this);
+            var item = toggle.closest('.layout-row');
+            var text = toggle.find('span');
+
+            item
+                .toggleClass('collapsed')
+                .find('[data-toggle="collapse"] i')
+                .toggleClass('fa-compress')
+                .toggleClass('fa-expand');
+
+            if (toggle.find('i').hasClass('fa-compress')) {
+                text.text(toggle.data('collapse'));
+            } else {
+                text.text(toggle.data('expand'));
+            }
+
+            toggle
+                .closest('.dropdown')
+                .find('.dropdown-toggle')
+                .trigger('click');
+
+            if (typeof collapsed == 'undefined') {
+                collapsed = {};
+            }
+
+            collapsed[items.index(item)] = item.hasClass('collapsed');
+
+            Cookies.set(cookie, JSON.stringify(collapsed), {path: window.location.pathname});
+
+            return false;
+        });
+    });
+
     $('.layout-rows').sortable({
         placeholder: '<div class="placeholder"></div>',
         containerSelector: '.layout-rows',
@@ -46,8 +122,9 @@ $(function () {
 
         var $this = $(this);
 
+
         var href = $this.attr('href');
-        var $container = $('#' + $this.data('field_slug'));
+        var $container = $('.layout-container[data-field_name="' + $this.data('field_slug') + '"]');
         var $rowsContainer = $container.find('.layout-rows');
 
         /**
@@ -58,7 +135,16 @@ $(function () {
             instanceId++;
         }
 
-        $.post(href, {instance_id: instanceId, field_slug: $this.data('field_slug')}, function (data) {
+        /**
+         * Reset the sort orders for every row
+         */
+        var sortOrder = 0;
+        $('.layout-container[data-field_name="' + $this.data('field_slug') + '"] .layout-rows .layout-row').each(function(index, row) {
+            $(row).find('.layout-row-sort-order').val(index);
+            sortOrder = index;
+        });
+
+        $.post(href, {instance_id: instanceId, field_slug: $this.data('field_slug'), sort_order: ++sortOrder}, function (data) {
 
             /**
              * This is a hack to get around a bug that exists in the editor field type.
@@ -79,8 +165,7 @@ $(function () {
                 data = dataArray.join('\n');
             }
 
-            var $row = $('<div>').addClass('layout-row').append(data);
-            $rowsContainer.append($row);
+            $rowsContainer.append(data);
         });
 
         $('#modal').modal('hide');

@@ -1,49 +1,21 @@
 {% block content %}
+    <div class="layout-row">
+        {% for style in asset_styles("styles.css") %}
+            {{ style|raw }}
+        {% endfor %}
 
-    {% for style in asset_styles("styles.css") %}
-        {{ style|raw }}
-    {% endfor %}
+        <div class="layout-controls">
+            {{ view('fritzandandre.field_type.layout::partials.form_header', {'name': extension_name}) }}
 
-    <!--
-    -->
-
-    <div class="layout-controls">
-        <ul class="list-inline">
-            <li class="list-inline-item">
-                <div class="layout-handle">
-                    <a href="javascript:;"><i class="fa fa-arrows"></i></a>
-                </div>
-            </li>
-            <li class="list-inline-item">
-                {{ extension_name }}
-            </li>
-        </ul>
-
-        <div class="dropdown pull-right">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-cog "></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <!--
-                <a href="#" class="dropdown-item" data-toggle="collapse" data-expand="Expand" data-collapse="Collapse">
-                    <i class="fa fa-compress "></i> <span>Collapse</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                -->
-
-                <a href="javascript:;" class="dropdown-item text-danger layout-row-delete">
-                    <i class="fa fa-trash"></i> <span>Delete</span>
-                </a>
-            </div>
+            {{ view('fritzandandre.field_type.layout::partials.controls') }}
         </div>
+
+        <div class="layout-form">
+            {{ content|raw }}
+        </div>
+
+        {% for script in asset_scripts("scripts.js") %}
+            {{ script|raw }}
+        {% endfor %}
     </div>
-
-    <div class="layout-form">
-        {{ content|raw }}
-    </div>
-
-    {% for script in asset_scripts("scripts.js") %}
-        {{ script|raw }}
-    {% endfor %}
-
 {% endblock %}

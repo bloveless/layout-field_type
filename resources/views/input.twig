@@ -44,47 +44,14 @@
     {% endif %}
 
     <div>
-        <div id="{{ field_type.input_name }}" class="layout-field_type">
+        <div {{ html_attributes(field_type.attributes) }}>
             <div class="layout-rows">
                 {% for form in forms_html %}
                     <div class="layout-row">
-                        <!--
-                        <div class="layout-delete-handle">
-                            <a class="layout-row-delete" href="javascript:;"><i class="fa fa-remove"></i></a>
-                        </div>
-                        <div class="layout-handle">
-                            <a href="javascript:;"><i class="fa fa-arrows"></i></a>
-                        </div>
-                        -->
                         <div class="layout-controls">
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <div class="layout-handle">
-                                        <a href="javascript:;"><i class="fa fa-arrows"></i></a>
-                                    </div>
-                                </li>
-                                <li class="list-inline-item">
-                                    {{ form.name }}
-                                </li>
-                            </ul>
+                            {{ view('fritzandandre.field_type.layout::partials.form_header', {'name': form.name}) }}
 
-                            <div class="dropdown pull-right">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-cog "></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <!--
-                                    <a href="#" class="dropdown-item" data-toggle="collapse" data-expand="Expand" data-collapse="Collapse">
-                                        <i class="fa fa-compress "></i> <span>Collapse</span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    -->
-
-                                    <a href="javascript:;" class="dropdown-item text-danger layout-row-delete">
-                                        <i class="fa fa-trash"></i> <span>Delete</span>
-                                    </a>
-                                </div>
-                            </div>
+                            {{ view('fritzandandre.field_type.layout::partials.controls') }}
                         </div>
 
                         <div class="layout-form">

@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Doctrine\DBAL\Driver\DriverException;
 use Doctrine\DBAL\Exception\TableExistsException;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -26,9 +27,7 @@ class LayoutFieldTypeSchema extends FieldTypeSchema
     {
         $table = $table->getTable() . '_' . $this->fieldType->getField();
 
-        if ($this->schema->hasTable($table)) {
-            throw new TableExistsException($table . ' already exists.', null);
-        }
+        $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,

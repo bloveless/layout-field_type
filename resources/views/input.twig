@@ -27,6 +27,11 @@
                     {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
                 </span>
             {% endif %}
+
+            <a style="margin-left: 2em;" href="#{{ field_tpye.input_name }}_add_widget" class="btn btn-sm btn-success">
+                {{ trans('fritzandandre.field_type.layout::message.skip_to_add_widget') }}
+            </a>
+
         </label>
     {% endif %}
 
@@ -61,10 +66,10 @@
                 {% endfor %}
             </div>
 
-            <a href="/admin/layout-field_type/widgets?field_slug={{ field_type.input_name }}"
+            <a id="{{ field_tpye.input_name }}_add_widget" href="/admin/layout-field_type/widgets?field_slug={{ field_type.input_name }}"
                class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal">
                 <i class="fa fa-plus"></i>
-                Add widget
+                {{ trans('fritzandandre.field_type.layout::message.add_widget') }}
             </a>
         </div>
     </div>

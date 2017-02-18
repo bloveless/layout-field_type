@@ -1,0 +1,12 @@
+
+    /**
+     * Register the addon.
+     */
+    public function register()
+    {
+        $this->dispatch(new \Fritzandandre\LayoutFieldType\Widget\Command\RegisterWidgetAddon(
+            {path},
+            "{namespace}"
+        ));
+    }
+

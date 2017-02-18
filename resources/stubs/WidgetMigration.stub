@@ -1,0 +1,35 @@
+{
+    /**
+     * The widget namespace.
+     *
+     * @var string
+     */
+    protected $namespace = '{addon_slug}_{widget_name}';
+
+    /**
+     * The widget fields.
+     *
+     * @var array
+     */
+    protected $fields = [
+        'content' => 'anomaly.field_type.wysiwyg',
+    ];
+
+    /**
+     * The widget stream.
+     *
+     * @var array
+     */
+    protected $stream = [
+        'slug' => '{widget_name}',
+    ];
+
+    /**
+     * The widget assignments.
+     *
+     * @var array
+     */
+    protected $assignments = [
+        'content',
+    ];
+}

@@ -1,0 +1,60 @@
+<?php namespace {uc_vendor}\{uc_widget_name}WidgetExtension;
+
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Support\Decorator;
+use Fritzandandre\LayoutFieldType\Contract\LayoutExtensionInterface;
+use Fritzandandre\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\Form\{uc_widget_name}WidgetFormBuilder;
+use Fritzandandre\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\{uc_widget_name}WidgetModel;
+
+class {uc_widget_name}WidgetExtension extends Extension implements LayoutExtensionInterface
+{
+    /**
+     * This extension provides.
+     *
+     * @var null|string
+     */
+    protected $provides = 'fritzandandre.field_type.layout::widget.{widget_name}';
+
+    /**
+     * Then entry ID to use when retrieving the layout.
+     *
+     * @var
+     */
+    protected $entryId;
+
+    /**
+     * Get the form used to create and edit html widgets.
+     *
+     * @return \Illuminate\Foundation\Application|mixed
+     */
+    public function getForm()
+    {
+        return app({uc_widget_name}WidgetFormBuilder::class);
+    }
+
+    /**
+     * Set the entry id for rendering.
+     *
+     * @param $entryId
+     */
+    public function setEntryId($entryId)
+    {
+        $this->entryId = $entryId;
+    }
+
+    /**
+     * Render the content.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function render()
+    {
+        /** @var {uc_widget_name}WidgetModel ${lc_widget_name}Widget */
+        $model                 = app({uc_widget_name}WidgetModel::class);
+        ${lc_widget_name}Widget = (new Decorator())->decorate($model->find($this->entryId));
+
+        return view('{vendor}.extension.{widget_name}_widget::render', [
+            'content' => ${lc_widget_name}Widget->content,
+        ]);
+    }
+}

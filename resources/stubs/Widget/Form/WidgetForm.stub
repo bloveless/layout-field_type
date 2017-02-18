@@ -1,0 +1,5 @@
+<?php namespace {uc_vendor}\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\Form;
+
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+
+class {uc_widget_name}WidgetFormBuilder extends FormBuilder { }

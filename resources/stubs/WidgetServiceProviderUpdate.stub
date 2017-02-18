@@ -1,0 +1,5 @@
+        $this->dispatch(new \Fritzandandre\LayoutFieldType\Widget\Command\RegisterWidgetAddon(
+            {path},
+            "{namespace}"
+        ));
+

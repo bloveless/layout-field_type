@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'title'       => '{title} Widget',
+    'name'        => '{title} Widget Extension',
+    'description' => ''
+];

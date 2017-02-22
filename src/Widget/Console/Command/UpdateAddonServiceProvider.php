@@ -69,7 +69,7 @@ class UpdateAddonServiceProvider
              * path and namespace.
              */
             $parsedTemplate = $parser->parse($template, [
-                'path'      => "__DIR__ . '/../" . 'addons/' . $this->vendor . '/' . $this->widgetName . '_widget-extension' . "/'",
+                'path'      => "dirname(__DIR__) . '/" . 'addons/' . $this->vendor . '/' . $this->widgetName . '_widget-extension\'',
                 'namespace' => $this->vendor . '.extension.' . $this->widgetName . '_widget',
             ]);
 
@@ -105,7 +105,7 @@ class UpdateAddonServiceProvider
              * path and namespace.
              */
             $parsedTemplate = $parser->parse($template, [
-                'path'      => "__DIR__ . '/../" . 'addons/' . $this->vendor . '/' . $this->widgetName . '_widget-extension' . "/'",
+                'path'      => "dirname(__DIR__) . '/" . 'addons/' . $this->vendor . '/' . $this->widgetName . '_widget-extension' . "'",
                 'namespace' => $this->vendor . '.extension.' . $this->widgetName . '_widget',
             ]);
 

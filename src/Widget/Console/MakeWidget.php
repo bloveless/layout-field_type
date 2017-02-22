@@ -1,10 +1,6 @@
 <?php namespace Fritzandandre\LayoutFieldType\Widget\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
 use Fritzandandre\LayoutFieldType\Widget\Console\Command\MakeWidgetPath;
 use Fritzandandre\LayoutFieldType\Widget\Console\Command\UpdateAddonComposer;
 use Fritzandandre\LayoutFieldType\Widget\Console\Command\UpdateAddonServiceProvider;
@@ -17,10 +13,8 @@ use Fritzandandre\LayoutFieldType\Widget\Console\Command\WriteWidgetRenderView;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class MakeWidget

@@ -25,6 +25,7 @@ class LayoutFieldType extends FieldType
 
     /**
      * The field class
+     *
      * @var string
      */
     protected $class = "layout-container";
@@ -70,13 +71,19 @@ class LayoutFieldType extends FieldType
      */
     public function display()
     {
-        if($this->entry) {
+        if ($this->entry) {
             /**
              * Get the widgets from the db for this layout field.
              */
-            $entries = $this->getPivotTableModel()->where('entry_id', $this->getEntry()->getId())->orderBy('sort_order')->get();
+            $entries = $this->getPivotTableModel()
+                            ->where('entry_id', $this->getEntry()->getId())
+                            ->orderBy('sort_order')
+                            ->get();
 
-            return $this->dispatch(new GetDisplayContentFromEntries($entries));
+            /**
+             * Then get the content to display for each widget.
+             */
+            return $this->dispatch(new GetDisplayContentFromEntries($this->getPivotTableModel(), $entries));
         }
 
         return "";
@@ -100,7 +107,11 @@ class LayoutFieldType extends FieldType
         /**
          * Get the individual form html for each layout entry
          */
-        $formContents = $this->dispatch(new GetFormHtmlFromLayoutEntries($layoutEntries, $this->getFieldName()));
+        $formContents = $this->dispatch(new GetFormHtmlFromLayoutEntries(
+                $this->getPivotTableModel(),
+                $layoutEntries,
+                $this->getFieldName())
+        );
 
         return view($this->inputView, ['forms_html' => $formContents, 'field_type' => $this])->render();
     }

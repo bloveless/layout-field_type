@@ -6,13 +6,24 @@ class GetFormHtmlFromLayoutEntries
 {
     use DispatchesJobs;
 
+    protected $pivotTableModel;
+
     protected $layoutEntries;
+
     protected $fieldSlug;
 
-    public function __construct($layoutEntries, $fieldSlug)
+    /**
+     * GetFormHtmlFromLayoutEntries constructor.
+     *
+     * @param $pivotTableModel
+     * @param $layoutEntries
+     * @param $fieldSlug
+     */
+    public function __construct($pivotTableModel, $layoutEntries, $fieldSlug)
     {
-        $this->layoutEntries = $layoutEntries;
-        $this->fieldSlug     = $fieldSlug;
+        $this->pivotTableModel = $pivotTableModel;
+        $this->layoutEntries   = $layoutEntries;
+        $this->fieldSlug       = $fieldSlug;
     }
 
     public function handle()
@@ -21,34 +32,56 @@ class GetFormHtmlFromLayoutEntries
         $instance     = 0;
 
         foreach ($this->layoutEntries as $layoutEntry) {
-            $extension = $layoutEntry->getWidget();
-            $form      = $extension->getForm();
-
             /**
-             * Setup some options for the form.
+             * If the widget exists. I.E. wasn't uninstalled or deleted.
              */
-            $this->dispatch(new SetFormOptions(
-                $form,
-                $extension,
-                $this->fieldSlug,
-                $instance++,
-                $layoutEntry->sort_order
-            ));
+            if(class_exists($layoutEntry->widget_type)) {
+                $extension = $layoutEntry->getWidget();
 
+                /**
+                 * We can only display the widget if it is not null
+                 * and is currently installed.
+                 */
+                if($extension && $extension->isInstalled()) {
+                    $form      = $extension->getForm();
+
+                    /**
+                     * Setup some options for the form.
+                     */
+                    $this->dispatch(new SetFormOptions(
+                        $form,
+                        $extension,
+                        $this->fieldSlug,
+                        $instance++,
+                        $layoutEntry->sort_order
+                    ));
+
+                    /**
+                     * This will be used for deleting and updating.
+                     */
+                    $form->setOption('id', $layoutEntry->id);
+
+                    $form->make($layoutEntry->widget_id);
+
+                    /**
+                     * Append the form html to the form contents array.
+                     */
+                    $formContents[] = [
+                        'name' => trans($extension->getName()),
+                        'html' => $form->getFormContent()->render(),
+                    ];
+                }
+            }
             /**
-             * This will be used for deleting and updating.
+             * Since this entry no longer points to a valid widget. (I.E. uninstalled or deleted)
+             * then the DB table containing the data has been deleted anyway. So lets clean up
+             * this entry. We only delete the row if the class doesn't exist in the system
+             * anymore, just in case there is some recovery that could happen when the extension
+             * is re-installed or re-activated.
              */
-            $form->setOption('id', $layoutEntry->id);
-
-            $form->make($layoutEntry->widget_id);
-
-            /**
-             * Append the form html to the form contents array.
-             */
-            $formContents[] = [
-                'name' => trans($extension->getName()),
-                'html' => $form->getFormContent()->render(),
-            ];
+            else {
+                $this->pivotTableModel->where('id', $layoutEntry->getId())->delete();
+            }
         }
 
         return $formContents;

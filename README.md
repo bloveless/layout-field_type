@@ -99,3 +99,8 @@ in the make:widget command) and you'll see you new widget-extension in that dire
  the list of widgets, so be descriptive and tell the use what your widget is all about.
  
  Watch the video <a href="#">here</a> to see a demonstration of generating widgets.
+
+## Changelog
+
+ v1.0.0 Initial release
+ v1.0.1 Layout FT will not throw an error if a widget is unistalled or deleted from the system. Layout FT will automatically clean rows from the DB if the related widget class is removed from the system.

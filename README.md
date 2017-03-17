@@ -105,3 +105,5 @@ in the make:widget command) and you'll see you new widget-extension in that dire
  v1.0.0 Initial release
 
  v1.0.1 Layout FT will not throw an error if a widget is unistalled or deleted from the system. Layout FT will automatically clean rows from the DB if the related widget class is removed from the system.
+
+ v1.0.2 Layout FT had some hard coded Fritzandandre references that have been removed.

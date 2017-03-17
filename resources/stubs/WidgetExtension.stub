@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Fritzandandre\LayoutFieldType\Contract\LayoutExtensionInterface;
-use Fritzandandre\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\Form\{uc_widget_name}WidgetFormBuilder;
-use Fritzandandre\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\{uc_widget_name}WidgetModel;
+use {uc_vendor}\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\Form\{uc_widget_name}WidgetFormBuilder;
+use {uc_vendor}\{uc_widget_name}WidgetExtension\{uc_widget_name}Widget\{uc_widget_name}WidgetModel;
 
 class {uc_widget_name}WidgetExtension extends Extension implements LayoutExtensionInterface
 {

@@ -9,7 +9,8 @@ this field type particularly useful is that the widgets are stored on the filesy
 they can be committed to version control and changing a single twig file will change
 every widget that has already been used on the entire site.
 
-Watch the video <a href="#">here</a> to see a demonstration of the layout field type.
+Watch the video <a href="https://www.youtube.com/watch?v=K-Y8_TvUrX0">here</a> to see a
+demonstration of the layout field type.
 
 ## Installation
 The Layout Field Type comes with two addons. The first addon is the actual
@@ -56,7 +57,8 @@ Now we are done! You can begin adding widgets to your pages! And when you have m
 past the abilities of the default widgets and you are ready to begin creating your own
 widgets with your own custom functionality then move on to "Generating Widgets".
 
-Watch the video <a href="#">here</a> to see a demonstration of the layout field type.
+Watch the video <a href="https://www.youtube.com/watch?v=K-Y8_TvUrX0">here</a> to see a
+demonstration of the layout field type.
 
 ## Generating Widgets
 A convenient artisan tools has been made to allow the generation of widgets automatically.
@@ -74,36 +76,41 @@ module (in this case fritzandandre.module.test) and you'll see a, possibly, new 
 called addons. Widgets are created as extensions that exist within an existing addon, so
 navigate inside addons/fritzandandre (this will actually be whatever vendor name you used
 in the make:widget command) and you'll see you new widget-extension in that directory.
- I've tried to provide some reasonable defaults to get started with, but you'll absolutely
- have to change them to customize the widget for your use.
+I've tried to provide some reasonable defaults to get started with, but you'll absolutely
+have to change them to customize the widget for your use.
+
+First, the migration for the widget is added to the parent addon, so go into the migrations
+folder of the addon you added the widget to and edit that migration to contain the fields
+and assignments that you will need for your widget. I prefer to use a single migration 
+that contains the stream definition, fields, assignments, and a custom namespace for the
+widget. These are all completely optional and you can change the migration as must as you
+need.
+
+Second, open src/ContentWidget/ContentWidgetExtension.php there is a single function in that
+file that you'll want to update, being the render function. By default the widget has only
+one field called "content". You'll want to add your fields to this render function and
+any other customizations necessary to render your widget. I usually only need to update the
+fields passed into the view in this function, but you can perform any other pre-processing
+steps necessary here.
+
+Third, open resources/views/render.twig and you can alter how this widget is displayed
+when the layout field type is rendered on the front-end of your application.
  
- First, the migration for the widget is added to the parent addon, so go into the migrations
- folder of the addon you added the widget to and edit that migration to contain the fields
- and assignments that you will need for your widget. I prefer to use a single migration 
- that contains the stream definition, fields, assignments, and a custom namespace for the
- widget. These are all completely optional and you can change the migration as must as you
- need.
- 
- Second, open src/ContentWidget/ContentWidgetExtension.php there is a single function in that
- file that you'll want to update, being the render function. By default the widget has only
- one field called "content". You'll want to add your fields to this render function and
- any other customizations necessary to render your widget. I usually only need to update the
- fields passed into the view in this function, but you can perform any other pre-processing
- steps necessary here.
- 
- Third, open resources/views/render.twig and you can alter how this widget is displayed
- when the layout field type is rendered on the front-end of your application.
- 
- Fourth, open resources/lang/en/addon.php and give your widget a good description. This
- description and the widget name are the only things visible when a user is selecting from
- the list of widgets, so be descriptive and tell the use what your widget is all about.
- 
- Watch the video <a href="#">here</a> to see a demonstration of generating widgets.
+Fourth, open resources/lang/en/addon.php and give your widget a good description. This
+description and the widget name are the only things visible when a user is selecting from
+the list of widgets, so be descriptive and tell the use what your widget is all about.
+
+**The widgets are automatically registered as installed when they are placed in the parent
+addon, but the migrations must be run manually. So at this point run ```php artisan
+migrate --all-addons``` in order to run the migrations for your widget.**
+
+Watch the video <a href="https://www.youtube.com/watch?v=K-Y8_TvUrX0">here</a> to see a
+demonstration of generating widgets.
 
 ## Changelog
 
- v1.0.0 Initial release
+v1.0.0 Initial release
 
- v1.0.1 Layout FT will not throw an error if a widget is unistalled or deleted from the system. Layout FT will automatically clean rows from the DB if the related widget class is removed from the system.
+v1.0.1 Layout FT will not throw an error if a widget is unistalled or deleted from the system. Layout FT will automatically clean rows from the DB if the related widget class is removed from the system.
 
- v1.0.2 Layout FT had some hard coded Fritzandandre references that have been removed.
+v1.0.2 Layout FT had some hard coded Fritzandandre references that have been removed.

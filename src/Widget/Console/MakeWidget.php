@@ -49,7 +49,7 @@ class MakeWidget extends Command
      * @param Repository $config
      * @throws \Exception
      */
-    public function fire(AddonCollection $addons, Repository $config)
+    public function handle(AddonCollection $addons, Repository $config)
     {
         $namespace = $this->argument('namespace');
         $widgetName = $this->argument('widget_name');

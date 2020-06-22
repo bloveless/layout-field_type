@@ -100,6 +100,9 @@ Fourth, open resources/lang/en/addon.php and give your widget a good description
 description and the widget name are the only things visible when a user is selecting from
 the list of widgets, so be descriptive and tell the use what your widget is all about.
 
+Fifth, open resources/lang/en/fields.php and give your fields a label so the admin shows
+a nice label for the fields you are using.
+
 **The widgets are automatically registered as installed when they are placed in the parent
 addon, but the migrations must be run manually. So at this point run ```php artisan
 migrate --all-addons``` in order to run the migrations for your widget.**
